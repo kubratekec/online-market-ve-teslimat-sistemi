@@ -310,6 +310,101 @@ Firestore Veritabanı dahil
  npm run devile uygulama çalışıyor
 Sorun mu yaşıyorsunuz? → TROUBLESHOOTING.mdbağlantıya bakın.
 
+
+
+⚡ 5 Dakikada Firebase Yapılandırması
+1️⃣ Firebase Projesi Oluşturma
+Firebase Konsol'a geçiş : https://console.firebase.google.com/
+"Proje ekle" (Proje Ekle) butonuna tıklayın
+Proje adını girin: online-market-app(veya istediğiniz isim)
+Google Analytics'i atlayabilirsiniz (isteğe bağlı)
+"Proje Oluştur" (Proje Oluştur) butonuna tıklayın
+Birkaç saniye bekleyin, proje oluşturulacak
+2️⃣ Web Uygulaması Ekleme
+Projenin eklenmesinden sonra, ana sayfada "Web" (</>) simgesine tıklayın
+Uygulama adını girin:Online Market App
+"Uygulamayı kaydet" (Uygulamayı Kaydet) butonuna tıklayın
+Açılan pencerede kopyalayın :
+const firebaseConfig = {
+  apiKey: "AIzaSy...",           // ← Burayı kopyala
+  authDomain: "...",              // ← Burayı kopyala
+  projectId: "...",               // ← Burayı kopyala
+  storageBucket: "...",           // ← Burayı kopyala
+  messagingSenderId: "...",       // ← Burayı kopyala
+  appId: "..."                    // ← Burayı kopyala
+}
+"Konsol'a devam et" butonuna tıklayın
+3️⃣ Yapılandırmayı Projeye Ekleme
+Projenize src/firebase/config.jsneyi açın
+Firebase Console'dan kopyalardaki bilgiler firebaseConfignesneye yerleşiyor
+Dosyayı Kaydet (Ctrl+S)
+Örnek:
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBvOkBvqLirjKGhiE-example",
+  authDomain: "online-market-app.firebaseapp.com",
+  projectId: "online-market-app",
+  storageBucket: "online-market-app.appspot.com",
+  messagingSenderId: "123456789012",
+  appId: "1:123456789012:web:abc123def456"
+};
+4️⃣ Authentication'ı Etkileştirme
+Firebase Console'da sol menüden "Kimlik Doğrulama" seçeneği
+"Başlayın" (Başlayın) butonuna tıklayın
+"Giriş yöntemi" (Giriş yöntemi) sekmesine geçiş
+"E-posta/Şifre" satırını bulun ve tıklayın
+"Etkinleştir" (Etkinleştir) toggle'ını açın
+"Kaydet" (Kaydet) butonuna tıklayın
+5️⃣ Firestore Database'i Etkileştirme
+Sol menüden "Firestore Database" seçeneğini seçin
+"Veritabanı oluştur" (Veritabanı oluştur) butonuna tıklayın
+"Test modunda başlat" (Test modu başlatma) seç
+Veritabanından seçin (örn: europe-west3veya europe-west1)
+"Etkinleştir" (Etkinleştir) butonuna tıklayın
+⚠️ NOT: Test modunda herkes veri tabanına erişebilir. Üretim'a ayrılmadan önce Güvenlik Kuralları'nı güncelleyin!
+
+6️⃣ Storage'ı Etkinleştirme (Opsiyonel - Ürün Görselleri İçin)
+Sol menüden "Storage" seçin
+"Başlayın" butonuna tıklayın
+Güvenlik kurallarını kabul edin (test modu)
+Bir konum
+"Tamamlandı" ><>
+7️⃣ İlk Admin Kullanıcı Oluşturma
+Uygulamada kayıt olun (yönetici rolünü seçebilirsiniz)
+Firebase Konsolu > Firestore Veritabanı > kullanıcı koleksiyonuna geçiş
+Oluşturduğunuz kullanıcı belgelerini bulun
+"rol" uyarısı "admin" olarak güncelleyin
+veya
+
+Firestore'da doğrudan şunları ekleyin:
+
+Koleksiyon:users
+Belge Kimliği: (kendi durumunuzun bir kimliği veya otomatik)
+Alanlar:
+email(dize): admin@example.com
+role(dize): yönetici
+name(dize): Yönetici Kullanıcı
+createdAt(zaman damgası): şu anki zaman
+✅ Kurulum Tamamlandı!
+Artık uygulamanızı çalıştırabilirsiniz:
+
+npm run dev
+🔒 Güvenlik Kuralları (Üretim İçin)
+Test edildikten sonra Firestore Security Rules'ı güncelleyin. Ayrıntılar için FIREBASE_SETUP.mdayrıntılara bakın.
+
+📋 Kontrol Listesi
+Firebase projeleri
+Web uygulamaları eklendi
+ src/firebase/config.jsDosya güncellendi
+Kimlik doğrulama etkinleştirildi (E-posta/Şifre)
+Firestore Veritabanı dahil
+Depolama etkinleştirildi ()
+İlk admin bölümü yer aldı
+❓ Sorun mu yaşıyorsunuz?
+FIREBASE_SETUP.mdiçeriğinde detaylı bilgiler var
+Firebase Console'da proje sistemi kontrolü edinin
+Tarayıcı konsolunda hata mesajlarını kontrol edin
+
 ## Firebase Firestore Yapısı
 
 ### Koleksiyonlar
