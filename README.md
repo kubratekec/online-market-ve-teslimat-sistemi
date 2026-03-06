@@ -124,6 +124,155 @@ Sert yenileme yaptım (Ctrl + Shift + R)
 Console'a açmak için doğru Google hesabıyla giriş yaptım
 MFA etkinleştirdim (gerekirse)
 
+Firebase Kurulum Rehberi
+1. Firebase Projesi Oluşturma
+Firebase Konsolu'na gidin
+"Proje ekle" butonuna tıklayın
+Proje adını girin ve "Devam Et" butonuna tıklayın
+Google Analytics'e bağlı olarak etkinleştirmenin
+"Proje oluştur" butonuna tıklayın
+2. Kimlik Doğrulama Kurulumu
+Sol menüden "Kimlik Doğrulama" seçeneğini seçin
+"Başlayın" butonuna tıklayın
+"Giriş yöntemi" sekmesine gidin
+"E-posta/Şifre" seçeneğinin etkinleştirilmesi
+"Etkinleştir" butonuna tıklayın ve kaydedin
+3. Firestore Veritabanı Kurulumu
+Sol menüden "Firestore Database" seçeneğini seçin
+"Veritabanı oluştur" butonuna tıklayın
+"Test modunda başlat" seçeneğini seçin (geliştirme için)
+Bir konum seçin (örn: europe-west3)
+"Etkinleştir" butonuna tıklayın
+Firestore Güvenlik Kuralları
+Geliştirme aşamasında test modunu kullanabilirsiniz. Üretim için aşağıdaki kuralları kullanın:
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Kullanıcılar
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Marketler
+    match /stores/{storeId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        (request.auth.uid == resource.data.ownerId || 
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin');
+    }
+    
+    // Ürünler
+    match /products/{productId} {
+      allow read: if request.auth != null;
+      allow create, update, delete: if request.auth != null && 
+        (get(/databases/$(database)/documents/stores/$(resource.data.storeId)).data.ownerId == request.auth.uid ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin');
+    }
+    
+    // Siparişler
+    match /orders/{orderId} {
+      allow read: if request.auth != null && 
+        (request.auth.uid == resource.data.userId ||
+         get(/databases/$(database)/documents/stores/$(resource.data.storeId)).data.ownerId == request.auth.uid ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin');
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow update: if request.auth != null && 
+        (get(/databases/$(database)/documents/stores/$(resource.data.storeId)).data.ownerId == request.auth.uid ||
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin');
+    }
+    
+    // Sepetler
+    match /carts/{cartId} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+    }
+  }
+}
+4. Web Uygulaması
+Sol menüden proje ayarlarına (⚙️) geçiş
+"Proje ayarları" seçin
+Aşağıya doğru açılır ve "Uygulamalarınız" bölümünde web simgesine (</>) tıklayın
+Uygulama takma adını girin ve "Uygulamayı kaydet" butonuna tıklayın
+Firebase'in içeriğini kopyalayın
+src/firebase/config.jsdosyasındaki firebaseConfignesneleri bu bilgilerle güncelleyin
+5. Depolama (Opsiyonel - Ürün Görselleri İçin)
+Sol menüden "Storage" seçin
+"Başlayın" butonuna tıklayın
+Güvenlik kurallarını kabul edin
+Bir konum
+"Tamamlandı" ><>
+6. İlk Admin Kullanıcı Oluşturma
+Uygulamada kayıt olun (admin rolü ile)
+Firebase Konsolu > Firestore Veritabanı > kullanıcı koleksiyonuna geçiş
+Oluşturduğunuz kullanıcı belgelerini bulun
+"rol" uyarısı "admin" olarak güncelleyin
+7. İlk Market Oluşturma (Test İçin)
+Firestore'da storeskoleksiyona bir test markette sunulabilir:
+
+{
+  name: "Test Market",
+  address: "Test Mahallesi, Test Caddesi No:1",
+  district: "Kadıköy",
+  phone: "0216 123 45 67",
+  ownerId: "market-sahibi-user-id",
+  workingHours: {
+    monday: { start: "09:00", end: "18:00", closed: false },
+    tuesday: { start: "09:00", end: "18:00", closed: false },
+    wednesday: { start: "09:00", end: "18:00", closed: false },
+    thursday: { start: "09:00", end: "18:00", closed: false },
+    friday: { start: "09:00", end: "18:00", closed: false },
+    saturday: { start: "09:00", end: "18:00", closed: false },
+    sunday: { start: "10:00", end: "16:00", closed: false }
+  }
+}
+Koleksiyon Yapısı
+kullanıcılar
+e-posta (dize)
+rol (dize): "müşteri", "mağaza sahibi", "yönetici"
+ad (dize)
+telefon (dize)
+adres (dize)
+oluşturulma tarihi (zaman damgası)
+mağazalar
+ad (dize)
+adres (dize)
+ilçe (dize)
+telefon (dize)
+sahipKimliği (dize)
+Çalışma Saatleri (harita)
+ürünler
+ad (dize)
+fiyat (sayı)
+birim (string): "adet", "kg", "gram", "litre"
+kategori (dize)
+alt kategori (dize)
+mağaza kimliği (dize)
+resim (dize, isteğe bağlı)
+siparişler
+kullanıcı kimliği (dize)
+mağaza kimliği (dize)
+öğeler (dizi)
+ToplamFiyat (sayı)
+teslimatTarihi (dize)
+teslimatZamanDurumu (dize)
+adres (dize)
+telefon (dize)
+durum (dize)
+oluşturulma tarihi (zaman damgası)
+ödemeDurumu (dize)
+arabalar
+kullanıcı kimliği (dize)
+mağaza kimliği (dize)
+öğeler (dizi)
+(Zaman damgası) tarihinde güncellendi
+Notlar
+Geliştirme aşamasında Firestore kuralları'nı test modunda bırakabilirsiniz
+Üretim'a ayrılmadan önce güvenlik kuralları'nı mutlaka güncelleyin
+Depolamayı kullanmıyorsanız, ürün görselleri için URL'yi kullanabilirsiniz
+İlk admin kullanıcıyı manuel olarak Firestore'da oluşturmanız mümkündür
+
 ## Firebase Firestore Yapısı
 
 ### Koleksiyonlar
