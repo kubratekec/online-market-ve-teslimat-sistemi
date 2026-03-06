@@ -37,6 +37,92 @@ npm install
 ```bash
 npm run dev
 ```
+Firebase Dağıtım Adımları
+📋 Web Sitesini Görüntüleme
+Adım 1: Siteyi Aç
+Tarayıcınızı açın (Chrome, Firefox, Edge vb.)
+
+Adres çubuğuna şu URL'yi yazın ve Enter'a basın:
+
+https://online-market-randevu-sistemi.web.app
+VEYA
+
+https://online-market-randevu-sistemi.firebaseapp.com
+Site açılırsa ✅ başarılı!
+
+Giriş/Kayıt olun
+"Online Market" başlığı görünmeli
+Firebase'in varsayılan sayfası görünüyorsa:
+
+Ctrl + Shift + R(Windows) veya Cmd + Shift + R(Mac) ile sabit yenileme yapın
+Veya tarayıcı önbelleğini temizleyin
+🔧 Firebase Konsol Erişimi (Opsiyonel - Site Çalışıyorsa Gerekmez)
+Adım 1: Doğru Google Hesabıyla Giriş
+Chrome'da sağ üst köşedeki profil ikonuna tıklayın
+caymazlutfiye3@gmail.comile giriş yaptığınızdan emin olun
+Eğer farklı bir hesap görünüyorsa:
+Profil ikonuna tıklayın
+"Farklı bir hesap kullan" seçeneğini seçin
+caymazlutfiye3@gmail.comile giriş yap
+Adım 2: Firebase Console'a Git
+Şu URL'yi açın:
+
+https://console.firebase.google.com/project/online-market-randevu-sistemi/overview
+Eğer "Bu proje mevcut değil veya onu görüntüleme izniniz yok" hatası görürseniz:
+
+Sağ üstteki profil ikonuna tıklayın
+Doğru hesabı seçin ( caymazlutfiye3@gmail.com)
+Sayfayı yenileyin ( F5)
+Adım 3: MFA (2 Adımlı Doğrulama) Etkinleştirme (Gerekirse)
+Firebase Console'daki kırmızı uyarı banner'ında "2SV'yi aç" butonuna tıklayın
+Veya doğrudan: https://myaccount.google.com/security
+"2 Adımlı Doğrulama" bölümü bulun
+"Başlat" butonuna tıklayın
+Adımları takip ederek telefon numaranızı ekleyin
+🔄 Yeni güncellemelerden Sonra Tekrar Konuşlandır Etme
+Adım 1: Kodu Güncelle
+Kodunuzda değişiklik yapın
+Değişiklikler
+Adım 2: Et'i Oluşturun
+Terminal'de (PowerShell) şu çalıştırılır:
+
+cd "online market ve teslimat sistemi\online-market-app"
+npm run build
+Adım 3: Et'i Dağıtın
+Sonrasında şunları inşa edin:
+
+firebase deploy --only hosting
+Adım 4: Bekle
+Dağıtım işlemi 1-2 dakikada tamamlanır. "Dağıtım tamamlandı!" Mesajını tamamladınız.
+
+Adım 5: Et'yi Test Edin
+Tarayıcıda siteyi aç ( https://online-market-randevu-sistemi.web.app )
+Ctrl + Shift + Rile zor yenileme yap
+değişikliklerin belirtilmediğini kontrol edin
+⚠️Sorun Giderme
+Site açılmıyor / Firebase varsayılan sayfası görünüyor
+Yeniden yükle:Ctrl + Shift + R
+Tarayıcı önbelleğini temizleyin
+Gizli pencere modunu açma (Ctrl + Shift + N)
+Farklı bir tarayıcı hatası
+Konsola erişemiyorum
+Doğru Google hesabıyla giriş yaptığınızdan emin olun
+MFA (2 Adımlı Doğrulama) etkinleştirmenin
+Tarayıcıyı yeniden açma
+Dağıtım hatası al
+Firebase CLI'nin güncel olduğundan emin olun:firebase --version
+Build'in başarılı olduğundan emin olun:npm run build
+.firebasercdosyada doğru proje kimliğinin olup olmadığını kontrol edin
+📍 Önemli URL'ler
+Canlı Site: https://online-market-randevu-sistemi.web.app
+Firebase Konsolu: https://console.firebase.google.com/project/online-market-randevu-sistem/overview
+Hosting Ayarları: https://console.firebase.google.com/project/online-market-randevu-sistemi/hosting/main
+✅ Hızlı Kontrol Listesi
+Site URL'sini tarayıcıda düzenler
+Giriş/Kayıt olun sayfa görünüyor
+Sert yenileme yaptım (Ctrl + Shift + R)
+Console'a açmak için doğru Google hesabıyla giriş yaptım
+MFA etkinleştirdim (gerekirse)
 
 ## Firebase Firestore Yapısı
 
