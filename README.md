@@ -273,6 +273,43 @@ Geliştirme aşamasında Firestore kuralları'nı test modunda bırakabilirsiniz
 Depolamayı kullanmıyorsanız, ürün görselleri için URL'yi kullanabilirsiniz
 İlk admin kullanıcıyı manuel olarak Firestore'da oluşturmanız mümkündür
 
+
+
+Hızlı Başlangıç ​​- Test Kullanıcıları Oluşturma
+Test Kullanıcılarını Oluşturmak İçin:
+Yöntem 1: Web Sayfası (ÖNERİLEN - En Kolay)
+yüzü:
+
+npm run dev
+Tarayıcıda şu adrese geçiş:
+
+http://localhost:5173/create-users
+"Tüm Kullanıcıları Oluştur" butonuna tıklayın
+
+Sonuçları bekleyin (10-15 saniye)
+
+Artık giriş yapabilirsiniz!
+
+📋 Oluşturulacak kullanıcılar
+Rol	E-posta	Şifre
+Yönetici	admin@market.com	admin123
+Pazar Sahibi 1	market1@market.com	pazar123
+Market Sahibi 2	market2@market.com	pazar123
+Müşteri 1	musteri1@market.com	musteri123
+Müşteri 2	musteri2@market.com	musteri123
+Müşteri 3	musteri3@market.com	musteri123
+✅ Giriş Yapma
+http://localhost:5173/loginsiz
+Yukarıdaki e-posta ve şifrelerden birini kullanın
+Giriş yap!
+⚠️ÖNEMLİ: Önce Kontrol Edin
+Kullanıcıların oluşturmadan önce düzenliliğinin hazır olduğundan emin olun:
+
+Firebase Kimlik Doğrulaması etkinleştirildi (E-posta/Şifre)
+Firestore Veritabanı dahil
+ npm run devile uygulama çalışıyor
+Sorun mu yaşıyorsunuz? → TROUBLESHOOTING.mdbağlantıya bakın.
+
 ## Firebase Firestore Yapısı
 
 ### Koleksiyonlar
